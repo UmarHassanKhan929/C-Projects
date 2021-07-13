@@ -317,6 +317,27 @@ class SingleLinkedList{
         currLoc->next = currLoc2->next;
         currLoc2->next=temp;
     }
+	
+	NodeClass* ReverseKNodes(NodeClass* &start, int k){
+		NodeClass* prev=NULL;
+		NodeClass* current=start;
+		NodeClass* next;
+		int count=0;
+		
+		while(current!=NULL && count<k){
+			next=current->next;
+			current->next=prev;
+			prev=current;
+			current=next;
+			count++;
+		}
+		
+		if(next!=NULL){
+			start->next = ReverseKNodes(next,k);
+		}
+		
+		return prev;
+	}
 };
 
 int main(void){
