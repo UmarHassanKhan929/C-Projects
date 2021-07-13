@@ -338,6 +338,23 @@ class SingleLinkedList{
 		
 		return prev;
 	}
+	
+	//detect a cycle in linked list
+	boolean DetectCycle(NodeClass* &root){
+		NodeClass* turtoise=root;
+		NodeClass* hare=root;
+		
+		while(hare!=NULL && hare->next !=NULL){
+			turtoise=turtoise->next;
+			hare=hare->next->next;
+			
+			if(hare==turtoise){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 };
 
 int main(void){
