@@ -355,6 +355,99 @@ class SingleLinkedList{
 		
 		return false;
 	}
+
+    // this method removes the cycle from linked list if detected
+    void RemoveCycle(NodeClass* &root){
+        NodeClass* turtoise=root;
+        NodeClass* hare=root;
+        
+        do{
+            turtoise=turtoise->next;
+            hare=hare->next->next;
+        }while(turtoise!=hare);
+
+        turtoise=root;
+
+        while(turtoise->next!=hare->next){
+            turtoise=turtoise->next;
+            hare=hare->next;
+        }
+
+        hare->next=NULL;
+    }
+
+    int length(NodeClass* &root){
+        NodeClass* temp=root;
+        int count=0;
+        while(temp!=NULL){
+            count++;
+            temp=temp->next;
+        }
+        return count;
+    }
+
+    // this method rotates the linked list by k nodes
+    NodeClass* AppendKNodes(NodeClass* &root, int k){
+        NodeClass* newHead;
+        NodeClass* newTail;
+        NodeClass* tail=root;
+
+        int len=length(root);
+        int count=1;
+        k = k%len;
+        while(tail->next!=NULL){
+            if(count==len-k){
+                newTail=tail;
+            }
+            if(count==len-k+1){
+                newHead=tail;
+            }
+            tail=tail->next;
+            count++;
+        }
+
+        newTail->next=NULL;
+        tail->next=root;
+
+        return newHead;
+
+    }
+
+    // this method return intersection point (value) of two linked lists
+    int IntersectionPoint(NodeClass* &root1, NodeClass* &root2){
+        int len1=length(root1);
+        int len2=length(root2);
+        int diff;
+
+        NodeClass* ptrL;
+        NodeClass* ptrS;
+
+        if(len1>len2){
+            diff=len1-len2;
+            ptrL=root1;
+            ptrS=root2;
+        }
+        else{
+            diff=len2-len1;
+            ptrL=root2;
+            ptrS=root1;
+        }
+
+        for(int i=0;i<diff;i++){
+            ptrL=ptrL->next;
+        }
+
+        while(ptrL!=NULL && ptrS!=NULL){
+            if(ptrL==ptrS){ // if both pointers are pointing to same node
+                return ptrL->data;
+            }
+            ptrL=ptrL->next;
+            ptrS=ptrS->next;
+        }
+
+        return -1; // if no intersection point found
+
+    }
 };
 
 int main(void){
@@ -372,5 +465,7 @@ int main(void){
     ssl.PrintList();
     ssl.InsertAtEnd(11);
     ssl.PrintList();
+
+    // ssl.RemoveCycle(ssl.start);
 
 }
